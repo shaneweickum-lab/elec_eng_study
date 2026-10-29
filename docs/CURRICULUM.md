@@ -16,6 +16,12 @@ Every lesson defines: learning objectives, required and recommended prerequisite
 
 A lesson is complete only when its knowledge check is passed. Unfinished modules are listed as **planned** and never marked complete.
 
+## Glossary tooltips
+
+`src/content/curriculum/glossary.ts` defines terminology that may not be common knowledge (units, instruments, safety terms, standards). Lesson text is matched automatically — whole words, case-insensitive, acronyms case-sensitive, longest alias first — and the first occurrence of each term in a section is underlined with a definition tooltip (hover, keyboard focus or tap). Knowledge-check prompts and explanations are annotated too, and each lesson's sidebar lists its key terms with definitions for screen-reader and print use.
+
+To add a term, add an entry with its aliases; no lesson markup is needed. Definitions are curriculum content and go through the same technical review as lessons.
+
 ## Tier 1 — Electrical fundamentals
 
 | # | Module | Status |

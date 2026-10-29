@@ -8,6 +8,8 @@ import { parseEngineering } from "@/lib/units";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { plainText } from "@/lib/glossary-match";
+import { RichText } from "./rich-text";
 
 function isCorrect(q: Question, answer: string | undefined): boolean {
   if (answer === undefined || answer === "") return false;
@@ -34,11 +36,11 @@ export function KnowledgeCheck({ lesson, onSubmit }: { lesson: Lesson; onSubmit:
       {questions.map((q, i) => {
         const right = isCorrect(q, answers[q.id]);
         return (
-          <fieldset key={q.id} className="rounded-lg border border-border bg-card p-4" disabled={submitted}>
+          <fieldset key={q.id} className="rounded-lg border border-border bg-card p-4">
             <legend className="sr-only">Question {i + 1}</legend>
             <p className="text-sm font-medium">
               <span className="lcd mr-2 text-amber">Q{i + 1}</span>
-              {q.prompt}
+              <RichText text={q.prompt} />
             </p>
             {q.kind === "single-choice" ? (
               <div className="mt-3 grid gap-2" role="radiogroup">
@@ -51,21 +53,23 @@ export function KnowledgeCheck({ lesson, onSubmit }: { lesson: Lesson; onSubmit:
                       submitted && o.id === q.correct && "border-success/60 bg-success/10",
                     )}
                   >
-                    <input type="radio" name={q.id} value={o.id} checked={answers[q.id] === o.id} onChange={() => setAnswers({ ...answers, [q.id]: o.id })} className="accent-[var(--cyan)]" data-testid={`q-${q.id}-${o.id}`} />
+                    <input type="radio" name={q.id} value={o.id} checked={answers[q.id] === o.id} disabled={submitted} onChange={() => setAnswers({ ...answers, [q.id]: o.id })} className="accent-[var(--cyan)]" data-testid={`q-${q.id}-${o.id}`} />
                     {o.text}
                   </label>
                 ))}
               </div>
             ) : (
               <div className="mt-3 flex max-w-xs items-center gap-2">
-                <Input aria-label={q.prompt} value={answers[q.id] ?? ""} onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })} data-testid={`q-${q.id}-input`} />
+                <Input disabled={submitted} aria-label={plainText(q.prompt)} value={answers[q.id] ?? ""} onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })} data-testid={`q-${q.id}-input`} />
                 <span className="text-sm text-muted-foreground">{q.unit}</span>
               </div>
             )}
             {submitted && (
               <p className={cn("mt-3 flex gap-2 text-sm", right ? "text-success" : "text-danger")}>
                 {right ? <CheckCircle2 className="mt-0.5 size-4 shrink-0" /> : <XCircle className="mt-0.5 size-4 shrink-0" />}
-                <span className="text-muted-foreground">{q.explanation}</span>
+                <span className="text-muted-foreground">
+                  <RichText text={q.explanation} />
+                </span>
               </p>
             )}
           </fieldset>

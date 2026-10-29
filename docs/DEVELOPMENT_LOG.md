@@ -1,5 +1,11 @@
 # Development log
 
+## 2026-10-29 — Glossary tooltips in lessons
+
+- Added a 64-term glossary and automatic term matching for lesson text, tables and knowledge checks.
+- Tooltips open on hover, keyboard focus or tap; a "Key terms" list in the lesson sidebar provides the same definitions without hovering.
+- Tests: matcher unit tests (word boundaries, longest match, acronym case, first-occurrence scoping) and a Playwright test for hover, keyboard and tap.
+
 ## 2026-10-29 — First release: Tier 1 electrical laboratory vertical slice
 
 ### Completed
