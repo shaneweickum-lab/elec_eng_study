@@ -1,0 +1,10 @@
+{
+  "name": "@iea/voxel-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Procedural micro-voxel asset generation and isometric software rasterization. No rendering-framework dependencies.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
