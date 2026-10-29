@@ -33,6 +33,8 @@ const attempt = (overrides: Partial<AttemptRecord>): AttemptRecord => ({
   safetyScore: 100,
   safetyPassed: true,
   actions: [],
+  answers: {},
+  wrongDiagnoses: 0,
   readings: 1,
   safetyCodes: [],
   ...overrides,

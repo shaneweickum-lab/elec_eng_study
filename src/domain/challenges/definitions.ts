@@ -46,7 +46,7 @@ const raw: ChallengeDefinition[] = [
     ],
     safetyRules: [...STANDARD_SAFETY],
     hints: [
-      { id: "h1", text: "Ohm's law: I = V ÷ R. The supply set-point is V; R1's value is printed on the part (and encoded in its colour bands)." },
+      { id: "h1", text: "Ohm's law: I = V ÷ R. The supply set-point is V; R1's value is printed on the part (and encoded in its color bands)." },
       { id: "h2", text: "To measure current: turn the output OFF, remove jumper J1, set the meter to A⎓, and put the probes on the two posts J1 joined (T1 and T2). Then turn the output back on." },
       { id: "h3", text: "Use \"Log reading\" while the reading is displayed. Enter your calculated answer in amperes or choose mA." },
     ],

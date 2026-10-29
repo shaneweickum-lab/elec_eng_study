@@ -59,7 +59,7 @@ export class VoxelGrid {
   }
 
   /**
-   * Cylinder along an axis. (c1, c2) is the centre in the two other axes
+   * Cylinder along an axis. (c1, c2) is the center in the two other axes
    * (for "z": x,y; for "x": y,z; for "y": x,z); [from, to) along the axis.
    */
   cylinder(axis: "x" | "y" | "z", c1: number, c2: number, radius: number, from: number, to: number, material: number): this {

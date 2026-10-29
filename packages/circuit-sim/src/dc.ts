@@ -244,7 +244,7 @@ function classifySingular(
           {
             code: "voltage-source-loop",
             message:
-              "Ideal voltage sources are connected in a loop (for example in parallel). Their currents cannot be determined without modelled internal resistance.",
+              "Ideal voltage sources are connected in a loop (for example in parallel). Their currents cannot be determined without modeled internal resistance.",
             componentIds: involved,
           },
         ],

@@ -58,7 +58,7 @@ export const electricalSafetyLesson: Lesson = {
         {
           type: "callout",
           tone: "note",
-          title: "PPE is the last line of defence",
+          title: "PPE is the last line of defense",
           body: "Personal protective equipment — voltage-rated gloves with leather protectors, arc-rated clothing, face and eye protection — reduces injury when other controls fail. It is selected from a shock and arc-flash risk assessment and inspected before each use. It never replaces de-energizing.",
         },
       ],
@@ -137,7 +137,7 @@ export const electricalSafetyLesson: Lesson = {
         options: [
           { id: "a", text: "Wear the highest-rated PPE available" },
           { id: "b", text: "Establish an electrically safe work condition (de-energize, isolate, verify)" },
-          { id: "c", text: "Work quickly to minimise exposure time" },
+          { id: "c", text: "Work quickly to minimize exposure time" },
           { id: "d", text: "Use insulated tools" },
         ],
         correct: "b",

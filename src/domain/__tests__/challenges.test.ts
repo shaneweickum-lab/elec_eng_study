@@ -202,7 +202,7 @@ describe("challenge 5 — open circuit diagnosis", () => {
     expect(result.passed).toBe(true);
   });
 
-  it("fails a wrong diagnosis and penalises earlier wrong guesses", () => {
+  it("fails a wrong diagnosis and penalizes earlier wrong guesses", () => {
     const session = play(scenario.state, survey);
     const wrong = scenario.state.parts.find((p) => p.id !== faulty)!.id;
     expect(evaluateChallenge(def, submit(session, { facts: scenario.facts, diagnosis: wrong })).passed).toBe(false);
@@ -227,5 +227,27 @@ describe("challenge 5 — open circuit diagnosis", () => {
     const result = evaluateChallenge(def, submit(session, { facts: scenario.facts, diagnosis: faulty }));
     expect(result.tasks.find((t) => t.taskId === "evidence")!.passed).toBe(false);
     expect(result.safetyPassed).toBe(false);
+  });
+});
+
+describe("attempt replay", () => {
+  it("reproduces the recorded result from seed + action log", async () => {
+    const { replayAttempt } = await import("@/domain/challenges/replay");
+    const { AttemptRecordSchema } = await import("@/domain/progress/schema");
+    const def = getChallenge("dc-current-basic")!;
+    const seed = 31337;
+    const scenario = generateScenario("single-resistor", seed);
+    const session = play(scenario.state, SAFE_SERIES_CURRENT);
+    const expected = scenario.state.supply.voltage / resistance(scenario.state, "R1");
+    const original = evaluateChallenge(def, submit(session, { facts: scenario.facts, answers: { predict: expected } }));
+    // Round-trip through the persisted schema, as the app does.
+    const record = AttemptRecordSchema.parse({
+      id: "a1", challengeId: def.id, definitionVersion: def.version, seed, mode: "independent",
+      startedAt: "2026-10-29T00:00:00.000Z", submittedAt: "2026-10-29T00:01:00.000Z", durationSeconds: 60, hintsUsed: 0,
+      passed: original.passed, score: original.score, safetyScore: original.safetyScore, safetyPassed: original.safetyPassed,
+      actions: JSON.parse(JSON.stringify(session.actions)), answers: { predict: String(expected) }, wrongDiagnoses: 0,
+      readings: session.readings.length, safetyCodes: [],
+    });
+    expect(replayAttempt(def, record)).toEqual(original);
   });
 });

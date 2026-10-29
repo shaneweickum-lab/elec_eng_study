@@ -15,7 +15,7 @@ export const ohmsLawLesson: Lesson = {
     "Convert between unit prefixes (m, µ, k, M) without losing a factor of 1000.",
     "Predict how current changes when voltage or resistance changes.",
     "Explain why voltage is measured across a component and current is measured in series.",
-    "Recognise where Ohm's law does not describe a device's behaviour.",
+    "Recognize where Ohm's law does not describe a device's behavior.",
   ],
   prerequisites: { required: [], recommended: ["electrical-safety-fundamentals"] },
   skills: ["ohms-law.calculate", "ohms-law.apply", "meter.current"],

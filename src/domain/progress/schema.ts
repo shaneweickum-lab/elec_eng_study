@@ -34,8 +34,12 @@ export const AttemptRecordSchema = z.object({
   score: z.number(),
   safetyScore: z.number(),
   safetyPassed: z.boolean(),
-  /** Abbreviated learner action log (types and timestamps) for review. */
-  actions: z.array(z.object({ type: z.string(), t: z.number() })),
+  /** Complete learner action log (bench actions and logged readings, with timestamps). Enables deterministic replay. */
+  actions: z.array(z.looseObject({ type: z.string(), t: z.number() })),
+  /** Raw numeric answers as entered, keyed by task id. */
+  answers: z.record(z.string(), z.string()).default({}),
+  diagnosis: z.string().optional(),
+  wrongDiagnoses: z.number().int().nonnegative().default(0),
   readings: z.number().int().nonnegative(),
   safetyCodes: z.array(z.string()),
 });

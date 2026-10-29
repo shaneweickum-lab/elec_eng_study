@@ -9,7 +9,7 @@ import { hash3 } from "./random";
  * baked into a single RGBA bitmap that the renderer uploads as one texture.
  *
  *  • Hidden-face elimination: only top, +x and +y faces are visible from the
- *    fixed camera, and only where the neighbouring cell is empty.
+ *    fixed camera, and only where the neighboring cell is empty.
  *  • Exact pixel stamps: with an even `unit`, every voxel's projected origin
  *    lands on an integer pixel, so each face is a precomputed pixel stamp.
  *  • Painter's order: voxels are bucketed by x + y + z; for unit cubes in this
@@ -67,7 +67,7 @@ const FACE_CORNERS: Record<FaceKind, ReadonlyArray<readonly [number, number, num
   2: [[0, 1, 0], [1, 1, 0], [1, 1, 1], [0, 1, 1]],
 };
 const FACE_NORMAL: Record<FaceKind, readonly [number, number, number]> = { 0: [0, 0, 1], 1: [1, 0, 0], 2: [0, 1, 0] };
-/** In-plane neighbour direction for each face edge, matching FACE_CORNERS edge order. */
+/** In-plane neighbor direction for each face edge, matching FACE_CORNERS edge order. */
 const EDGE_DIRECTIONS: Record<FaceKind, ReadonlyArray<readonly [number, number, number]>> = {
   0: [[0, -1, 0], [1, 0, 0], [0, 1, 0], [-1, 0, 0]],
   1: [[0, 0, -1], [0, 1, 0], [0, 0, 1], [0, -1, 0]],
@@ -197,7 +197,7 @@ export function rasterize(grid: VoxelGrid, options: RasterOptions): RasterImage 
         facesDrawn++;
         const shade = (mat?.emissive ? EMISSIVE_SHADE[face] : FACE_SHADE[face]) * n;
 
-        // Edge classification: convex (neighbour in plane empty) → highlight; concave → occlusion.
+        // Edge classification: convex (neighbor in plane empty) → highlight; concave → occlusion.
         const edgeFactor = [1, 1, 1, 1];
         if (detailed) {
           EDGE_DIRECTIONS[face].forEach(([ex, ey, ez], e) => {

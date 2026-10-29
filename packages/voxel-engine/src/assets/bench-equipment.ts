@@ -44,8 +44,8 @@ export const benchPowerSupply = registerGenerator<PowerSupplyParams>({
     grid.stamp(textRows("-"), "front", 26, 23, 8, M.chrome);
 
     const attachments: AttachmentPoint[] = [
-      { id: "display-voltage", kind: "display", position: { x: 7.5, y: 24, z: 13.6 }, face: "front" },
-      { id: "display-current", kind: "display", position: { x: 22.5, y: 24, z: 13.6 }, face: "front" },
+      { id: "display-voltage", kind: "display", position: { x: 7.5, y: 24, z: 12 }, face: "front" },
+      { id: "display-current", kind: "display", position: { x: 22.5, y: 24, z: 12 }, face: "front" },
       { id: "jack-positive", kind: "jack", position: { x: 23.5, y: 26, z: 5 }, meta: { polarity: "+" } },
       { id: "jack-negative", kind: "jack", position: { x: 27.5, y: 26, z: 5 }, meta: { polarity: "-" } },
     ];
@@ -98,7 +98,7 @@ export const terminalBoard = registerGenerator<TerminalBoardParams>({
 /* --------------------------------------------------------------- resistor */
 
 export interface ResistorColorCode {
-  /** Colour names, first band to last (tolerance band included). */
+  /** Color names, first band to last (tolerance band included). */
   readonly bands: readonly string[];
   readonly significantDigits: readonly number[];
   readonly multiplierExponent: number;
@@ -110,7 +110,7 @@ export interface ResistorColorCode {
 
 export const BAND_COLOR_NAMES = ["black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "gray", "white"] as const;
 
-/** Standard EIA resistor colour code (4-band for 2 significant digits, else 5-band). Tolerance band: gold (±5 %). */
+/** Standard EIA resistor color code (4-band for 2 significant digits, else 5-band). Tolerance band: gold (±5 %). */
 export function resistorColorCode(ohms: number): ResistorColorCode {
   if (!(ohms > 0) || !Number.isFinite(ohms)) throw new Error(`Invalid resistance ${ohms}`);
   const encode = (digits: number) => {
@@ -131,7 +131,7 @@ export function resistorColorCode(ohms: number): ResistorColorCode {
   }
   const significantDigits = String(code.mantissa).padStart(digits, "0").split("").map(Number);
   const multiplier = code.exponent === -1 ? "gold" : code.exponent === -2 ? "silver" : BAND_COLOR_NAMES[code.exponent];
-  if (multiplier === undefined || code.exponent < -2 || code.exponent > 9) throw new Error(`Resistance ${ohms} Ω is outside the colour-code range`);
+  if (multiplier === undefined || code.exponent < -2 || code.exponent > 9) throw new Error(`Resistance ${ohms} Ω is outside the color-code range`);
   return {
     bands: [...significantDigits.map((d) => BAND_COLOR_NAMES[d]!), multiplier, "gold"],
     significantDigits,
@@ -299,7 +299,7 @@ export const multimeterAsset = registerGenerator<{ mode: MeterDialPosition; fuse
     // Kick-stand.
     grid.box(3, 0, 0, 13, 1, 2, M.steelDark);
     const attachments: AttachmentPoint[] = [
-      { id: "display", kind: "display", position: { x: 8, y: 6, z: 19.4 }, face: "front" },
+      { id: "display", kind: "display", position: { x: 8, y: 6, z: 18 }, face: "front" },
       { id: "jack-a", kind: "jack", position: { x: 4, y: 7, z: 3.5 } },
       { id: "jack-com", kind: "jack", position: { x: 8, y: 7, z: 3.5 } },
       { id: "jack-v", kind: "jack", position: { x: 12, y: 7, z: 3.5 } },

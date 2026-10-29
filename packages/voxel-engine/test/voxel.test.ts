@@ -48,7 +48,7 @@ describe("rasterizer", () => {
   it("produces a watertight silhouette for a solid cube (no transparent holes)", () => {
     const g = new VoxelGrid(6, 6, 6).box(0, 0, 0, 6, 6, 6, M.steel);
     const img = rasterize(g, { unit: 4, outline: false });
-    // Sample the centre column of the image: everything between the top and bottom of the cube must be opaque.
+    // Sample the center column of the image: everything between the top and bottom of the cube must be opaque.
     const x = img.originX; // projection of the x = y line
     let first = -1;
     let last = -1;
@@ -134,7 +134,7 @@ describe("procedural assets", () => {
   });
 });
 
-describe("resistor colour code", () => {
+describe("resistor color code", () => {
   it.each([
     [470, ["yellow", "violet", "brown", "gold"]],
     [1000, ["brown", "black", "red", "gold"]],

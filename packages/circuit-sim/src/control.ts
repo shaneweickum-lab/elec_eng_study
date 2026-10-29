@@ -15,7 +15,7 @@ import type { CoilStates } from "./topology";
  * oscillates (e.g. a coil fed through its own NC contact — a "buzzer").
  *
  * Simplifications (documented in SIMULATION_ENGINE.md): coil inductance,
- * contact bounce and operate/release times are not modelled.
+ * contact bounce and operate/release times are not modeled.
  */
 
 export type ControlSettleResult =

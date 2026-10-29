@@ -17,7 +17,7 @@ export const ResistorSchema = z.object({
   id: identifier,
   a: identifier,
   b: identifier,
-  /** Ohms. Must be finite and > 0; an open component is modelled by removing it. */
+  /** Ohms. Must be finite and > 0; an open component is modeled by removing it. */
   resistance: positive,
 });
 
@@ -71,7 +71,7 @@ export const PushbuttonSchema = z.object({
 });
 
 /**
- * Electromechanical relay / contactor coil, modelled as a resistive load with
+ * Electromechanical relay / contactor coil, modeled as a resistive load with
  * pickup and dropout voltage thresholds (hysteresis).
  */
 export const RelayCoilSchema = z

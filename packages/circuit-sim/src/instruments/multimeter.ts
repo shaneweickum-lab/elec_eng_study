@@ -7,7 +7,7 @@ import { engineeringPrefix, type Unit } from "../units";
 /**
  * Virtual digital multimeter.
  *
- * The meter is modelled as a circuit element inserted between its probes,
+ * The meter is modeled as a circuit element inserted between its probes,
  * so every reading comes from the same solver as the rest of the circuit:
  *   • DC voltage — 10 MΩ input impedance across the probes.
  *   • DC current — 0.1 Ω shunt (burden) between the probes; it must be placed
