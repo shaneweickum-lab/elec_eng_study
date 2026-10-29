@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { ArrowRight, BookMarked, CheckCircle2, Clock, FlaskConical, Info, Lightbulb, ShieldAlert } from "lucide-react";
 import { getLesson, getSkill, moduleOfLesson, type Block } from "@/content/curriculum";
 import { CHALLENGES } from "@/domain/challenges/definitions";
@@ -13,7 +13,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { KnowledgeCheck } from "./knowledge-check";
 import { OhmsLawExplorer } from "./ohms-law-explorer";
-import { RichText } from "./rich-text";
+import { AnnotationContext, RichText } from "./rich-text";
+import { annotateLesson } from "./annotations";
+import { getGlossaryEntry } from "@/content/curriculum/glossary";
 
 const REVIEW_LABEL = { draft: "Draft", "pending-technical-review": "Pending technical review", reviewed: "Technically reviewed" } as const;
 
@@ -110,7 +112,7 @@ function BlockView({ block }: { block: Block }) {
                 <tr key={i} className="border-t border-border">
                   {row.map((cell, j) => (
                     <td key={j} className={cn("px-3 py-2", j === 0 ? "font-medium" : "text-foreground/80")}>
-                      {cell}
+                      <RichText text={cell} />
                     </td>
                   ))}
                 </tr>
@@ -131,6 +133,7 @@ export function LessonView({ slug }: { slug: string }) {
   const startLesson = useProgressStore((s) => s.startLesson);
   const submitCheck = useProgressStore((s) => s.submitKnowledgeCheck);
   const complete = hydrated && isLessonComplete(progress, slug);
+  const annotations = useMemo(() => annotateLesson(lesson), [lesson]);
   const challenges = lesson.challenges.map((id) => CHALLENGES.find((c) => c.id === id)).filter((c) => c !== undefined);
 
   useEffect(() => {
@@ -172,7 +175,8 @@ export function LessonView({ slug }: { slug: string }) {
         </Card>
 
         {lesson.sections.map((section, i) => (
-          <section key={section.id} id={section.id} className="mt-10 scroll-mt-6 space-y-4">
+          <AnnotationContext.Provider key={section.id} value={(text) => annotations.sections.get(section.id)?.get(text)}>
+          <section id={section.id} className="mt-10 scroll-mt-6 space-y-4">
             <h2 className="flex items-baseline gap-3 text-xl font-semibold">
               <span className="lcd text-sm text-amber">{String(i + 1).padStart(2, "0")}</span>
               {section.title}
@@ -181,6 +185,7 @@ export function LessonView({ slug }: { slug: string }) {
               <BlockView key={j} block={block} />
             ))}
           </section>
+          </AnnotationContext.Provider>
         ))}
 
         <section id="knowledge-check" className="mt-12 scroll-mt-6 space-y-4">
@@ -260,6 +265,27 @@ export function LessonView({ slug }: { slug: string }) {
             </div>
           </CardContent>
         </Card>
+        {annotations.termIds.length > 0 && (
+          <Card>
+            <CardContent className="pt-5 text-xs">
+              <details data-testid="key-terms">
+                <summary className="cursor-pointer font-semibold text-muted-foreground uppercase">Key terms ({annotations.termIds.length})</summary>
+                <p className="mt-2 text-muted-foreground">Underlined terms in the lesson show these definitions on hover, focus or tap.</p>
+                <dl className="mt-3 space-y-2">
+                  {annotations.termIds.map((id) => {
+                    const entry = getGlossaryEntry(id)!;
+                    return (
+                      <div key={id}>
+                        <dt className="font-medium text-foreground">{entry.term}</dt>
+                        <dd className="text-muted-foreground">{entry.definition}</dd>
+                      </div>
+                    );
+                  })}
+                </dl>
+              </details>
+            </CardContent>
+          </Card>
+        )}
         {lesson.references.length > 0 && (
           <Card>
             <CardContent className="pt-5 text-xs text-muted-foreground">
